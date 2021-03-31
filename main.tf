@@ -52,6 +52,12 @@ resource "time_sleep" "wait_30_sec" {
     create_duration = "30s"
 }
 
+resource "null_resource" "key_permissions" {
+  provisioner "local-exec" {
+    command = "chmod 400 ssh_key_file"
+  }
+}
+
 resource "null_resource" "test2" {
     provisioner "local-exec" {
         command = "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u ubuntu -i ./ips.txt --private-key=./ssh_key_file ${path.module}/playbook/wget.yml"
