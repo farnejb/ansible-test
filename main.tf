@@ -60,7 +60,7 @@ resource "time_sleep" "wait_30_sec" {
 
 resource "null_resource" "test2" {
     provisioner "local-exec" {
-        command = "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u ubuntu -i ./ips.txt --private-key=./private.pem ${path.module}/playbook/wget.yml"
+        command = "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u ubuntu -i ./ips.txt --private-key=/private.pem ${path.module}/playbook/wget.yml"
         #command = "echo ${aws_instance.test.public_ip} >> ${path.module}/ips.txt"
 
     }
