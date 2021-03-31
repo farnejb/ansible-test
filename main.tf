@@ -47,16 +47,16 @@ resource "null_resource" "test1" {
     depends_on = [ aws_instance.test ]
 }
 
-resource "time_sleep" "wait_120_sec" {
+resource "time_sleep" "wait_30_sec" {
     depends_on = [null_resource.test1]
-    create_duration = "120s"
+    create_duration = "60s"
 }
 
 resource "null_resource" "test2" {
     provisioner "local-exec" {
-        command = "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u ubuntu -i ./ips.txt --private-key=${path.module}/ssh_key_file ${path.module}/playbook/wget.yml"
+        command = "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u ubuntu -i ./ips.txt --private-key=./ssh_key_file ${path.module}/playbook/wget.yml"
         #command = "echo ${aws_instance.test.public_ip} >> ${path.module}/ips.txt"
 
     }
-    depends_on = [time_sleep.wait_120_sec]
+    depends_on = [time_sleep.wait_30_sec]
 }
