@@ -49,7 +49,7 @@ resource "null_resource" "test1" {
 
 resource "time_sleep" "wait_30_sec" {
     depends_on = [null_resource.test1]
-    create_duration = "60s"
+    create_duration = "30s"
 }
 
 resource "null_resource" "test2" {
