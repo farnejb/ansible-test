@@ -6,11 +6,11 @@ provider "aws" {
   region = "us-east-1"
 }
 
-resource "null_resource" "create_ssh_key_file" {
-  provisioner "local-exec" {
-    command = "echo ${var.ssh_key} > ssh_key_file"
-  }
-}
+# resource "null_resource" "create_ssh_key_file" {
+#   provisioner "local-exec" {
+#     command = "echo ${var.ssh_key} > ssh_key_file"
+#   }
+# }
 
 resource "aws_security_group" "test_sg" {
   name = "test_sg"
@@ -52,15 +52,15 @@ resource "time_sleep" "wait_30_sec" {
     create_duration = "30s"
 }
 
-resource "null_resource" "key_permissions" {
-  provisioner "local-exec" {
-    command = "chmod 400 ssh_key_file"
-  }
-}
+# resource "null_resource" "key_permissions" {
+#   provisioner "local-exec" {
+#     command = "chmod 400 ssh_key_file"
+#   }
+# }
 
 resource "null_resource" "test2" {
     provisioner "local-exec" {
-        command = "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u ubuntu -i ./ips.txt --private-key=./ssh_key_file ${path.module}/playbook/wget.yml"
+        command = "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u ubuntu -i ./ips.txt --private-key=./private.pem ${path.module}/playbook/wget.yml"
         #command = "echo ${aws_instance.test.public_ip} >> ${path.module}/ips.txt"
 
     }
